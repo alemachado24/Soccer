@@ -21,49 +21,21 @@ from PIL import Image
 st.set_page_config(page_title="Soccer", page_icon="⚽️",layout="wide",)
 
 st.sidebar.header("Soccer Forecast ⚽️")
-# st.markdown("Soccer Forecast ⚽️")
 
-# @st.cache
-# def nba_logo():
-#     '''
-#     Function to pull Soccer stats from Pro Football Reference (https://www.pro-football-reference.com/).
-#     - team : team name (str)
-#     - year : year (int)
-#     '''
-#     # pull data
-#     url = f'https://www.basketball-reference.com/leagues/NBA_2023.html'
-#     html = requests.get(url).text
-#     soup = BeautifulSoup(html,'html.parser')
-#     table = soup.find("img",class_="teamlogo")
-#     logo = table['src']
-#     return logo
 
 option1, option2 = st.columns(2)
 with option1:
     st.title('Forecast from FiveThirtyEight')
 with option2:
-    st.text('')
+#     htp5="https://github.com/alemachado24/Soccer/blob/4d34d13b274394ad33104b3deb5ef934dda625e0/soccer_ball.png"
+    st.image('https://github.com/alemachado24/Soccer/blob/4d34d13b274394ad33104b3deb5ef934dda625e0/soccer_ball.png')#,caption= 'logo', width=350)
 #     st.image(nba_logo(),width=150)
-
 
 
 st.sidebar.markdown("This app performs simple webscraping of Soccer player stats data")
 st.sidebar.markdown("Data Sources: fivethirtyeight")
 
-#sidebar
-# selected_year = st.sidebar.selectbox('Year', list(reversed(range(1990,2024))))
-
-# general_stats, upcoming_games = st.tabs(["Standing Forecast", "Upcoming Games & Stats"])
-
-##############################################################################################################################
-############################################         Standing Forecast            ############################################
-##############################################################################################################################
-
-# with general_stats:
-
-# st.header(f'Soccer Forecast from FiveThirtyEight ')
-#---------------------------------538 Prediction Table
-# @st.cache
+@st.cache
 def get_new_data538():
     '''
     Function to pull NFL stats from 538 Reference (https://projects.fivethirtyeight.com/2023-nba-predictions/?ex_cid=irpromo).
@@ -143,143 +115,3 @@ st.dataframe(s)
 
 
     
-    #---------------------------------End Of 538 Prediction Table
-
-
-##############################################################################################################################
-############################################           Upcoming Games             ############################################
-##############################################################################################################################
-
-# with upcoming_games:
-
-
-#     #---------------------------------Week Forecast & Upcomming Games
-#     row1_1, row1_2 = st.columns((3, 3))#st.columns(2)
-
-#     with row1_1:
-
-#         st.write(f'Games Win Probabilities in {selected_year} from FiveThirtyEight ')
-#         #------------- webscrap for elo
-#     #         @st.cache(hash_funcs={pd.DataFrame: lambda _: None})
-#         @st.cache
-#         def get_new_data538_games(year):
-#             '''
-#             Function to pull NFL stats from 538 Reference (https://projects.fivethirtyeight.com/2022-nfl-predictions/).
-#             - year : year (int)
-#             '''
-#             # pull data
-#             url = f'https://projects.fivethirtyeight.com/{selected_year}-nba-predictions/games/'
-#             html = requests.get(url).text
-
-#             soup = BeautifulSoup(html,'html.parser')
-
-#             table2 = soup.find_all(class_=["day","h4","tr"])
-
-#     #             st.write(table2)
-
-#             data_tocheck = []
-
-#             for tablerow in table2:
-#                 data_tocheck.append([tabledata.get_text(strip=True) for tabledata in tablerow.find_all('h3')])
-#                 data_tocheck.append([tabledata.get_text(strip=True) for tabledata in tablerow.find_all('th')])
-#                 data_tocheck.append([tabledata.get_text(strip=True) for tabledata in tablerow.find_all('td')])
-
-
-#             df_tocheck = pd.DataFrame(data_tocheck)
-#     #             st.dataframe(df_tocheck)
-
-#             index = [0,1,2,3,4,9]
-#             df_tocheck2 = df_tocheck.iloc[:,index].copy()
-
-#             col_names = ['Date','Time', 'Team', 'Spread', 'Probability','To Leave']
-#             df_tocheck2.columns = col_names
-
-#     #             st.dataframe(df_tocheck2)
-
-#     #             df_tocheck2 = df_tocheck2[df_tocheck2.Date.notnull()]
-#     #             df_tocheck2 = df_tocheck2[df_tocheck2.Time.notnull()]
-#             df_tocheck2["Time"].fillna("Replace", inplace = True)
-#             df_tocheck2["To Leave"].fillna("To Leave", inplace = True)
-#             df_tocheck2['To Leave'] = np.where((df_tocheck2['Date']=='') & (df_tocheck2['Time']=='Replace') , 'To Remove', df_tocheck2['To Leave'])
-#             df_tocheck2['To Leave'] = df_tocheck2['To Leave'].str.replace('Score','To Leave Not')
-
-#     #             df_tocheck2['To Leave'] = df_tocheck2['Date'].str.replace('Score','To Leave')
-#             df_tocheck2['Team'] = df_tocheck2['Team'].str.replace('RAPTOR spread','')
-#             df_tocheck2['Spread'] = df_tocheck2['Spread'].str.replace('Win prob.','')
-#             df_tocheck2['Probability'] = df_tocheck2['Probability'].str.replace('Score','')
-#             df_tocheck2['Time'] = df_tocheck2['Time'].str.replace('Replace','')
-#             df_tocheck2["Team"].fillna("", inplace = True)
-#             df_tocheck2["Spread"].fillna("", inplace = True)
-#             df_tocheck2["Probability"].fillna("", inplace = True)
-#             df_tocheck2["Date"].fillna("", inplace = True)
-
-
-
-#             return df_tocheck2
-
-
-#         testFrame2=pd.DataFrame(get_new_data538_games(selected_year))
-#         testFrame=pd.DataFrame(testFrame2)
-
-#         new_value_time = []
-#         new_value_date = []
-#         time_column=[]
-#         date_column=[]
-
-#         for column in testFrame['Date'].iteritems():
-#         #     print(column[0])
-#             if column[1]!='':
-#                 new_value_date=column[1]
-#                 date_column.append(new_value_date)
-#         #         print(new_value)
-#             elif column[1]=='':
-#                 date_column.append(new_value_date)
-
-#         date_column_df=pd.DataFrame(date_column, columns=['Game Date'])
-
-
-
-#         for column in testFrame['Time'].iteritems():
-#         #     print(new_value_time)
-#         #     print(column[1])
-#             if column[1] == '' and new_value_time == []:
-#         #         print('aca')
-#                 time_column.append('first')
-#             elif column[1]!='':
-#                 new_value_time=column[1]
-#                 time_column.append(new_value_time)
-#         #         print(new_value)
-#             elif column[1]=='':
-#                 time_column.append(new_value_time)
-#     #             time_column
-
-#         time_column_df=pd.DataFrame(time_column, columns=['Game Time'])
-
-#         combined_list = pd.concat([date_column_df,time_column_df], axis=1)
-#         combined_list2 = pd.concat([combined_list,testFrame],ignore_index=True, axis=1) #['To Leave']=='To Leave'
-
-#         col_names2 = ['Date','Time','NoDate','NoTime', 'Team', 'Spread', 'Probability','To Leave']
-#         combined_list2.columns = col_names2
-#         combined_list2=combined_list2.loc[combined_list2['To Leave']=='To Leave']
-#         combined_list2=combined_list2.drop(['NoDate','NoTime','To Leave'], axis=1)
-#         all_combined=combined_list2.loc[combined_list2['Team']!='']
-#         all_combined=all_combined.loc[all_combined['Time']!='FINAL']
-#     #         st.dataframe(all_combined)
-
-
-#         def color_negative_red(val):
-#             '''
-#             highlight the maximum in a Series yellow.
-#             '''
-#             color = 'lightgreen' if str(val) > str(80) else 'white'
-#             return 'background-color: %s' % color
-#         s = all_combined.style.applymap(color_negative_red, subset=['Probability'])
-#     #         st.text('')
-#     #         st.text('')
-#     #         st.text('')
-#     #         st.text('')
-#     #         st.text('')
-#         st.dataframe(s)
-
-
-        
