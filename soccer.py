@@ -24,7 +24,7 @@ st.set_page_config(page_title="Soccer", page_icon="⚽️",layout="wide",)
 st.sidebar.header("Soccer Forecast ⚽️")
 # st.markdown("Soccer Forecast ⚽️")
 
-@st.cache
+# @st.cache
 def soccer_logo():
     '''
     Function to pull Soccer stats from Pro Football Reference (https://www.pro-football-reference.com/).
@@ -46,7 +46,7 @@ def soccer_logo():
 st.sidebar.markdown("This app performs simple webscraping of Soccer player stats data")
 st.sidebar.markdown("Data Sources: fivethirtyeight")
 
-# @st.cache
+@st.cache
 def get_new_data538():
     '''
     Function to pull NFL stats from 538 Reference (https://projects.fivethirtyeight.com/2023-nba-predictions/?ex_cid=irpromo).
@@ -90,9 +90,9 @@ def get_new_data538():
 
 
     #Rename columns
-    col_names = ['Date/Team', 'Team Probability', 'Tie Probability','New Column']
+    col_names = ['League/Team', 'Date/Team Probability', 'Tie Probability','New Column']
     new_data_standings.columns = col_names
-    new_data_standings=new_data_standings.loc[new_data_standings['Date/Team']!='']
+    new_data_standings=new_data_standings.loc[new_data_standings['League/Team']!='']
     new_data_standings["Tie Probability"].fillna("", inplace = True)
     new_data_standings["New Column"].fillna("To Leave", inplace = True)
     new_data_standings['New Column'] = new_data_standings['New Column'].apply(lambda x: 'To Leave' if 'p.m.' in x else x)
@@ -111,7 +111,7 @@ def color_negative_red(val):
     '''
     color = 'lightgreen' if str(val) > str(55) and len(str(val)) <= 3 else 'white'
     return 'background-color: %s' % color
-s = get_new_data538().style.applymap(color_negative_red, subset=['Team Probability'])
+s = get_new_data538().style.applymap(color_negative_red, subset=['Date/Team Probability'])
 
 
 
@@ -121,4 +121,4 @@ with option1:
     st.dataframe(s)
 with option2:
     st.text('')
-    st.image(soccer_logo())#,width=150)
+    st.image(soccer_logo())
