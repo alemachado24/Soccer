@@ -12,7 +12,8 @@ import seaborn as sns
 import io
 import re
 import plotly.express as px
-from PIL import Image
+# from PIL import Image
+# import PIL
 
 #cd Desktop/AleClasses/Soccer
 #streamlit run soccer.py
@@ -21,21 +22,31 @@ from PIL import Image
 st.set_page_config(page_title="Soccer", page_icon="⚽️",layout="wide",)
 
 st.sidebar.header("Soccer Forecast ⚽️")
+# st.markdown("Soccer Forecast ⚽️")
 
+@st.cache
+def soccer_logo():
+    '''
+    Function to pull Soccer stats from Pro Football Reference (https://www.pro-football-reference.com/).
+    - team : team name (str)
+    - year : year (int)
+    '''
+    # pull data
+    url = 'https://fivethirtyeight.com/features/the-world-cups-new-high-tech-ball-will-change-soccer-forever/'
+    html = requests.get(url).text
+    soup = BeautifulSoup(html,'html.parser')
+    table = soup.find("img",class_="")
+    logo = table['src']
+#     st.text(logo)
 
-option1, option2 = st.columns(2)
-with option1:
-    st.title('Forecast from FiveThirtyEight')
-with option2:
-#     htp5="https://github.com/alemachado24/Soccer/blob/4d34d13b274394ad33104b3deb5ef934dda625e0/soccer_ball.png"
-    st.image('https://github.com/alemachado24/Soccer/blob/4d34d13b274394ad33104b3deb5ef934dda625e0/soccer_ball.png')#,caption= 'logo', width=350)
-#     st.image(nba_logo(),width=150)
+    return logo
+
 
 
 st.sidebar.markdown("This app performs simple webscraping of Soccer player stats data")
 st.sidebar.markdown("Data Sources: fivethirtyeight")
 
-@st.cache
+# @st.cache
 def get_new_data538():
     '''
     Function to pull NFL stats from 538 Reference (https://projects.fivethirtyeight.com/2023-nba-predictions/?ex_cid=irpromo).
@@ -66,11 +77,9 @@ def get_new_data538():
     headings = []
     for tablerow in gdp_table_data:
         # remove any newlines and extra spaces from left and right
-#         headings.append([tabledata.get_text(strip=True) for tabledata in tablerow.find_all('time-league')])
         headings.append([tabledata.get_text(strip=True) for tabledata in tablerow.find("td")])
         headings.append([tabledata.get_text(strip=True) for tabledata in tablerow.find_all("td")])
-#     st.dataframe(headings)
-#tabledata.get_text(strip=True)
+
 
     df = pd.DataFrame(headings)
 #         st.dataframe(df)
@@ -95,9 +104,6 @@ def get_new_data538():
     
     return new_data_standings
 
-#Dataframe with Standing Predictions from 538
-
-# st.dataframe(get_new_data538())
 
 def color_negative_red(val):
     '''
@@ -106,12 +112,13 @@ def color_negative_red(val):
     color = 'lightgreen' if str(val) > str(55) and len(str(val)) <= 3 else 'white'
     return 'background-color: %s' % color
 s = get_new_data538().style.applymap(color_negative_red, subset=['Team Probability'])
-#         st.text('')
-#         st.text('')
-#         st.text('')
-#         st.text('')
-#         st.text('')
-st.dataframe(s)
 
 
-    
+
+option1, option2 = st.columns(2)
+with option1:
+    st.title('Forecast from FiveThirtyEight')
+    st.dataframe(s)
+with option2:
+    st.text('')
+    st.image(soccer_logo())#,width=150)
