@@ -24,7 +24,7 @@ st.set_page_config(page_title="Soccer", page_icon="⚽️",layout="wide",)
 st.sidebar.header("Soccer Forecast ⚽️")
 # st.markdown("Soccer Forecast ⚽️")
 
-@st.cache
+@st.cache_data
 def soccer_logo():
     '''
     Function to pull Soccer stats from Pro Football Reference (https://www.pro-football-reference.com/).
@@ -46,7 +46,7 @@ def soccer_logo():
 st.sidebar.markdown("This app performs simple webscraping of Soccer player stats data")
 st.sidebar.markdown("Data Sources: fivethirtyeight")
 
-# @st.cache
+# @st.cache_data
 def get_new_data538():
     '''
     Function to pull NFL stats from 538 Reference (https://projects.fivethirtyeight.com/2023-nba-predictions/?ex_cid=irpromo).
