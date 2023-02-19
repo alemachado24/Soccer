@@ -7,11 +7,11 @@ import base64
 import numpy as np
 import requests
 from bs4 import BeautifulSoup
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import seaborn as sns
 import io
 import re
-import plotly.express as px
+# import plotly.express as px
 # from PIL import Image
 # import PIL
 
