@@ -24,7 +24,7 @@ st.set_page_config(page_title="Soccer", page_icon="⚽️",layout="wide",)
 st.sidebar.header("Soccer Forecast ⚽️")
 # st.markdown("Soccer Forecast ⚽️")
 
-@st.cache_data
+@st.cache
 def soccer_logo():
     '''
     Function to pull Soccer stats from Pro Football Reference (https://www.pro-football-reference.com/).
