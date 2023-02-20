@@ -3,17 +3,10 @@
 
 import streamlit as st
 import pandas as pd
-import base64
 import numpy as np
 import requests
 from bs4 import BeautifulSoup
-# import matplotlib.pyplot as plt
-import seaborn as sns
-import io
-import re
-# import plotly.express as px
-# from PIL import Image
-# import PIL
+
 
 #cd Desktop/AleClasses/Soccer
 #streamlit run soccer.py
@@ -27,26 +20,30 @@ st.sidebar.header("Soccer Forecast ⚽️")
 @st.cache
 def soccer_logo():
     '''
-    Function to pull Soccer stats from Pro Football Reference (https://www.pro-football-reference.com/).
-    - team : team name (str)
-    - year : year (int)
+    Function to pull Soccer Picture from FiveThirtyEight.
     '''
-    # pull data
     url = 'https://fivethirtyeight.com/features/the-world-cups-new-high-tech-ball-will-change-soccer-forever/'
-    html = requests.get(url).text
-    soup = BeautifulSoup(html,'html.parser')
-    table = soup.find("img",class_="")
-    logo = table['src']
-#     st.text(logo)
-
-    return logo
+    
+    with requests.Session() as session:
+        response = session.get(url)
+    
+    if response.status_code != 200:
+        raise Exception(f"Failed to retrieve picture. Error code: {response.status_code}")
+    
+    soup = BeautifulSoup(response.content, 'lxml')
+    img_tag = soup.find("img", class_="")
+    
+    if not img_tag:
+        raise Exception(f"No picture found")
+    
+    return img_tag['src']
 
 
 
 st.sidebar.markdown("This app performs simple webscraping of Soccer player stats data")
 st.sidebar.markdown("Data Sources: fivethirtyeight")
 
-# @st.cache_data
+# @st.cache
 def get_new_data538():
     '''
     Function to pull NFL stats from 538 Reference (https://projects.fivethirtyeight.com/2023-nba-predictions/?ex_cid=irpromo).
@@ -105,20 +102,22 @@ def get_new_data538():
     return new_data_standings
 
 
-def color_negative_red(val):
+def highlight_high_probabilities(val, threshold=75):
     '''
-    highlight the maximum in a Series yellow.
+    Highlight values in lightgreen if they are greater than the threshold, 
+    otherwise highlight in white.
     '''
-    color = 'lightgreen' if str(val) > str(75) and len(str(val)) <= 3 else 'white'
+    color = 'lightgreen' if str(val) > str(threshold) and len(str(val)) <= 3 else 'white'
     return 'background-color: %s' % color
-s = get_new_data538().style.applymap(color_negative_red, subset=['Date/Team Probability'])
 
+data = get_new_data538()
+styled_data = data.style.applymap(highlight_high_probabilities, subset=['Date/Team Probability'])
 
 
 option1, option2 = st.columns(2)
 with option1:
     st.title('Forecast from FiveThirtyEight')
-    st.dataframe(s)
+    st.dataframe(styled_data)
 with option2:
     st.text('')
-    st.image(soccer_logo())
+    st.image(soccer_logo())#,width=150)
