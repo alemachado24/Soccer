@@ -17,7 +17,7 @@ st.set_page_config(page_title="Soccer", page_icon="⚽️",layout="wide",)
 st.sidebar.header("Soccer Forecast ⚽️")
 # st.markdown("Soccer Forecast ⚽️")
 
-@st.cache
+@st.cache_data
 def soccer_logo():
     '''
     Function to pull Soccer Picture from FiveThirtyEight.
