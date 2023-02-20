@@ -109,7 +109,7 @@ def color_negative_red(val):
     '''
     highlight the maximum in a Series yellow.
     '''
-    color = 'lightgreen' if str(val) > str(55) and len(str(val)) <= 3 else 'white'
+    color = 'lightgreen' if str(val) > str(75) and len(str(val)) <= 3 else 'white'
     return 'background-color: %s' % color
 s = get_new_data538().style.applymap(color_negative_red, subset=['Date/Team Probability'])
 
