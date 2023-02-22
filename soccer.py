@@ -7,10 +7,8 @@ import numpy as np
 import requests
 from bs4 import BeautifulSoup
 
-
 #cd Desktop/AleClasses/Soccer
 #streamlit run soccer.py
-
 
 st.set_page_config(page_title="Soccer", page_icon="⚽️",layout="wide",)
 
@@ -38,12 +36,9 @@ def soccer_logo():
     
     return img_tag['src']
 
-
-
 st.sidebar.markdown("This app performs simple webscraping of Soccer player stats data")
 st.sidebar.markdown("Data Sources: fivethirtyeight")
 
-# @st.cache
 def get_new_data538():
     '''
     Function to pull NFL stats from 538 Reference (https://projects.fivethirtyeight.com/2023-nba-predictions/?ex_cid=irpromo).
@@ -120,4 +115,4 @@ with option1:
     st.dataframe(styled_data)
 with option2:
     st.text('')
-    st.image(soccer_logo())#,width=150)
+    st.image(soccer_logo())
