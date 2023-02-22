@@ -28,7 +28,7 @@ def soccer_logo():
     if response.status_code != 200:
         raise Exception(f"Failed to retrieve picture. Error code: {response.status_code}")
     
-    soup = BeautifulSoup(response.content, 'lxml')
+    soup = BeautifulSoup(response.content, 'html.parser')
     img_tag = soup.find("img", class_="")
     
     if not img_tag:
