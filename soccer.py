@@ -97,12 +97,12 @@ def get_new_data538():
     return new_data_standings
 
 
-def highlight_high_probabilities(val, threshold=75):
+def highlight_high_probabilities(val, threshold=70):
     '''
     Highlight values in lightgreen if they are greater than the threshold, 
     otherwise highlight in white.
     '''
-    color = 'lightgreen' if str(val) > str(threshold) and len(str(val)) <= 3 else 'white'
+    color = 'lightgreen' if str(val) > str(threshold) and len(str(val)) == 3 else 'white'
     return 'background-color: %s' % color
 
 data = get_new_data538()
